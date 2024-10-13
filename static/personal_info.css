@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff3e0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 5%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    color: #ff9800;
+    margin-top: 0;
+}
+
+.modify-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 3px solid #ccc;
+    margin: 5% 0;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    border: none; /* Remove button outline */
+    margin: 20px 10px;
+}
+
+.button:hover {
+    background-color: #f57c00;
+    margin: 0 10px;
+}
+
+footer {
+    background-color: #ff9800;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: auto;
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .flashes li {
+    background-color: #ffe0b2;
+    color: #ff9800;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
