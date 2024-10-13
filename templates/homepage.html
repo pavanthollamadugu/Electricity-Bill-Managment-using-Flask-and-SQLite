@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electricity Company - Home</title>
+    <link rel="stylesheet" type="text/css" href="../static/homepage.css">
+    <link rel="stylesheet" type="text/css" href="../static/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    {% include 'header.html' %}
+    <main>
+        <div class="content-wrapper">
+            <section class="top-section">
+                <h2>Pay Your Bill</h2>
+                <p>Make secure online payments for your electricity bills conveniently. Choose from various payment options and enjoy hassle-free transactions.</p>
+                <a href="{{url_for('payBill')}}" class="button">Pay Bill</a>
+            </section>
+            <div class="row">
+                <section>
+                    <h2>Account Management</h2>
+                    <p>Take control of your account details, billing information, and payment history. Stay on top of your electricity usage and expenses.</p>
+                    <a href="{{url_for('account')}}" class="button">Manage Account</a>
+                </section>
+                <section>
+                    <h2>Energy Usage Insights</h2>
+                    <p>Gain valuable insights into your energy consumption patterns. Monitor your usage, identify areas for optimization, and learn how to save energy and reduce costs.</p>
+                    <a href="{{url_for('usage')}}" class="button">View Usage</a>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 Electricity Company. All rights reserved.
+    </footer>
+</body>
+</html>

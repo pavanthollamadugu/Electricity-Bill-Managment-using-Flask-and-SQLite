@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personal Information</title>
+    <link rel="stylesheet" type="text/css" href="../static/personal_info.css">
+    <link rel="stylesheet" type="text/css" href="../static/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <main>
+        <div class="container">
+            <h2>Personal Information</h2>
+            <div class="modify-buttons">
+                <button id="modify-password-btn" class="button">Modify Password</button>
+                <button id="modify-profile-picture-btn" class="button">Modify Profile Picture</button>
+            </div>
+            <form id="password-form" class="form-group" style="display: none;" method="post" action="{{ url_for('update_personal_info') }}">
+                <label for="old_password">Old Password:</label>
+                <input type="password" id="old_password" name="old_password" required>
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password">
+                <label for="confirm_password">Confirm New Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password">
+                <button type="submit" id="update-password-btn" class="button">Update Password</button>
+            </form>
+            <form id="profile-picture-form" class="form-group" style="display: none;" method="post" action="{{ url_for('update_personal_info') }}" enctype="multipart/form-data">
+                <label for="old_password">Enter Password:</label>
+                <input type="password" id="old_password" name="old_password" required>
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                <button type="submit" id="update-profile-picture-btn" class="button">Update Profile Picture</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Include your footer code here -->
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            const modifyPasswordBtn = $('#modify-password-btn');
+            const modifyProfilePictureBtn = $('#modify-profile-picture-btn');
+            const passwordForm = $('#password-form');
+            const profilePictureForm = $('#profile-picture-form');
+
+            modifyPasswordBtn.click(function() {
+                passwordForm.show();
+                profilePictureForm.hide();
+            });
+
+            modifyProfilePictureBtn.click(function() {
+                passwordForm.hide();
+                profilePictureForm.show();
+            });
+
+        });
+    </script>
+</body>
+</html>

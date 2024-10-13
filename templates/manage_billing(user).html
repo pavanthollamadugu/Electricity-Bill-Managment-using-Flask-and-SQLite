@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Billing - Electricity Company</title>
+    <link rel="stylesheet" type="text/css" href="../static/header.css">
+    <link rel="stylesheet" type="text/css" href="../static/manage_billing(user).css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    {% include 'header.html' %}
+    <main>
+        <div class="container">
+            <h2>Manage Billing</h2>
+            <div class="billing-info">
+                <div class="billing-section">
+                    <h3>Current Bill</h3>
+                    {% if current_bill %}
+                        <p>Amount: ${{ '{:.2f}'.format(current_bill.amount) }}</p>
+                        <p>Due Date: {{ current_bill.cycle_date }}</p>
+                        {% if not current_bill.paid %}
+                            <form action="{{ url_for('payBill') }}" method="GET">
+                                <input type="hidden" name="bill_id" value="{{ current_bill.id }}">
+                                <button type="submit" class="pay-button">Pay Now</button>
+                            </form>
+                        {% else %}
+                            <p>Status: Paid</p>
+                        {% endif %}
+                    {% else %}
+                        <p>No current bill available.</p>
+                    {% endif %}
+                </div>
+                <div class="billing-section">
+                    <h3>Billing History</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Billing Period</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bill in billing_history %}
+                            <tr>
+                                <td>{{ bill.cycle_date }}</td>
+                                <td>${{ '{:.2f}'.format(bill.amount) }}</td>
+                                <td>{{ 'Paid' if bill.paid else 'Unpaid' }}</td>
+                                <td>
+                                    {% if not bill.paid %}
+                                        <form action="{{ url_for('payBill') }}" method="GET">
+                                            <input type="hidden" name="bill_id" value="{{ bill.id }}">
+                                            <button type="submit" class="pay-button">Pay Now</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="billing-section">
+                    <h3>Payment Methods</h3>
+                    <ul>
+                        {% for payment_method in payment_methods %}
+                        <li>{{ payment_method.type }} - {{ payment_method.number }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="#" class="add-payment-button">Add Payment Method</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

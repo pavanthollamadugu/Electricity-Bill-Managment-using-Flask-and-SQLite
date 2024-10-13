@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Electricity Usage</title>
+  <link rel="stylesheet" type="text/css" href="../static/usage.css">
+  <link rel="stylesheet" type="text/css" href="../static/header.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      const weekToggle = $('#week-toggle');
+      const monthToggle = $('#month-toggle');
+      const yearToggle = $('#year-toggle');
+      const overallToggle = $('#overall-toggle');
+  
+      // Add event listeners to toggle buttons
+      weekToggle.click(function() {
+        updateData('week');
+      });
+  
+      monthToggle.click(function() {
+        updateData('month');
+      });
+  
+      yearToggle.click(function() {
+        updateData('year');
+      });
+  
+      overallToggle.click(function() {
+        updateData('overall');
+      });
+  
+      // Function to update data based on selected period
+      function updateData(period) {
+        // Remove 'active' class from all toggle buttons
+        weekToggle.removeClass('active');
+        monthToggle.removeClass('active');
+        yearToggle.removeClass('active');
+        overallToggle.removeClass('active');
+  
+        // Add 'active' class to the clicked toggle button
+        if (period === 'week') {
+          weekToggle.addClass('active');
+          $('#current-usage').text('{{ current_week_usage|round(2) }}');
+          $('#previous-usage').text('{{ previous_week_usage|round(2) }}');
+          $('#average-usage').text('{{ current_week_avg_usage|round(2) }}');
+          $('#current-expenses').text('{{ current_week_cost|round(2) }}');
+          $('#previous-expenses').text('{{ previous_week_cost|round(2) }}');
+          $('#average-expenses').text('{{ current_week_avg_cost|round(2) }}');
+        } else if (period === 'month') {
+          monthToggle.addClass('active');
+          $('#current-usage').text('{{ current_month_usage|round(2) }}');
+          $('#previous-usage').text('{{ previous_month_usage|round(2) }}');
+          $('#average-usage').text('{{ current_month_avg_usage|round(2) }}');
+          $('#current-expenses').text('{{ current_month_cost|round(2) }}');
+          $('#previous-expenses').text('{{ previous_month_cost|round(2) }}');
+          $('#average-expenses').text('{{ current_month_avg_cost|round(2) }}');
+        } else if (period === 'year') {
+          yearToggle.addClass('active');
+          $('#current-usage').text('{{ current_year_usage|round(2) }}');
+          $('#previous-usage').text('{{ previous_year_usage|round(2) }}');
+          $('#average-usage').text('{{ current_year_avg_usage|round(2) }}');
+          $('#current-expenses').text('{{ current_year_cost|round(2) }}');
+          $('#previous-expenses').text('{{ previous_year_cost|round(2) }}');
+          $('#average-expenses').text('{{ current_year_avg_cost|round(2) }}');
+        } else if (period === 'overall') {
+          overallToggle.addClass('active');
+          $('#current-usage').text('{{ overall_avg_usage|round(2) }}');
+          $('#previous-usage').text('-');
+          $('#average-usage').text('{{ overall_avg_usage|round(2) }}');
+          $('#current-expenses').text('{{ overall_avg_cost|round(2) }}');
+          $('#previous-expenses').text('-');
+          $('#average-expenses').text('{{ overall_avg_cost|round(2) }}');
+        }
+  
+        updateGraph(period);
+      }
+  
+      // Function to update the graph based on selected period
+      function updateGraph(period) {
+        var usageGraph = $('#usage-graph');
+        var costGraph = $('#cost-graph');
+  
+        usageGraph.attr('src', `/static/graphs/${period}_usage.png`);
+        costGraph.attr('src', `/static/graphs/${period}_cost.png`);
+      }
+  
+      // Set initial values
+      updateData('week');
+    });
+  </script>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <main>
+    <div class="container">
+      <h2>Electricity Usage</h2>
+      <div class="toggle-section">
+        <div class="toggle-buttons">
+          <button id="week-toggle" class="active">Week</button>
+          <button id="month-toggle">Month</button>
+          <button id="year-toggle">Year</button>
+          <button id="overall-toggle">Overall</button>
+        </div>
+      </div>
+      <div class="usage-section">
+        <h3>Usage</h3>
+        <div class="card-container">
+          
+          <div class="card">
+            <div class="card-content">
+              <h4>Previous</h4>
+              <p><span id="previous-usage"></span> kWh</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <h4>Current</h4>
+              <p><span id="current-usage"></span> kWh</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <h4>Average</h4>
+              <p><span id="average-usage"></span> kWh</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="expenses-section">
+        <h3>Expenses</h3>
+        <div class="card-container">
+          
+          <div class="card">
+            <div class="card-content">
+              <h4>Previous</h4>
+              <p>$<span id="previous-expenses"></span></p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <h4>Current</h4>
+              <p>$<span id="current-expenses"></span></p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <h4>Average</h4>
+              <p>$<span id="average-expenses"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    </div>
+  </main>
+
+  <footer>
+    <!-- Include your footer code here -->
+  </footer>
+</body>
+</html>

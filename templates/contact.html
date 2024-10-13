@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact - Electricity Company</title>
+    <link rel="stylesheet" type="text/css" href="../static/header.css">
+    <link rel="stylesheet" type="text/css" href="../static/contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    {% include 'header.html' %}
+    <main>
+        <div class="container">
+            <div class="contact-info">
+                <h2>Contact Us</h2>
+                <p>If you have any other questions or inquiries, please feel free to contact us:</p>
+                <p>
+                    Email: info@electricitycompany.com <br>
+                    Phone: +1 123-456-7890 <br>
+                    Address: 123 Electricity Street, City, Country <br>
+                </p>
+            </div>
+            <div class="content">
+                <div class="create-inquiry">
+                    <button onclick="showInquiryForm()">Create Inquiry</button>
+                    <div id="inquiry-form" style="display: none;">
+                        <h3>Create Inquiry</h3>
+                        <form method="post" action="{{ url_for('create_inquiry') }}">
+                            <input type="text" name="inquiry_name" placeholder="Inquiry Name" required>
+                            <textarea name="inquiry_question" placeholder="Question" required></textarea>
+                            <button type="submit" class="submit-btn">Submit Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="inquiry-history">
+                    <h3>Inquiry History</h3>
+                    {% if inquiries %}
+                    {% for inquiry in inquiries %}
+                    <div class="inquiry-card">
+                        <h4>{{ inquiry.inquiry_name }} <span class="inquiry-date">{{ inquiry.inquiry_date }}</span></h4>
+                        <p class="inquiry-label">Inquiry:</p>
+                        <p class="inquiry-question">{{ inquiry.inquiry_question }}</p>
+                        {% if inquiry.reply_content %}
+                        <br><p class="inquiry-label">Reply:</p><br><br>
+                        <div class="inquiry-reply">
+                            <p>{{ inquiry.reply_content }}</p>
+                        </div>
+                        {% else %}
+                        <p class="no-reply">No reply yet.</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No inquiries found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function showInquiryForm() {
+            var inquiryForm = document.getElementById("inquiry-form");
+            inquiryForm.style.display = inquiryForm.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>

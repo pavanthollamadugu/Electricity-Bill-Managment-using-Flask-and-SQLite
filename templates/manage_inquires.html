@@ -1,0 +1,66 @@
+<div class="container">
+  <h2>Manage Inquiries</h2>
+  <table class="table">
+      <thead>
+          <tr>
+              <th>User</th>
+              <th>Inquiry Name</th>
+              <th>Inquiry Date</th>
+              <th>Inquiry Question</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for inquiry in inquiries %}
+          <tr>
+              <td>{{ inquiry.username }}</td>
+              <td>{{ inquiry.inquiry_name }}</td>
+              <td>{{ inquiry.inquiry_date }}</td>
+              <td>{{ inquiry.inquiry_question }}</td>
+              <td>
+                <button class="btn {% if inquiry.id in replied_inquiry_ids %}btn-success{% else %}btn-primary{% endif %} answer-btn" data-inquiry-id="{{ inquiry.id }}">
+                  {% if inquiry.id in replied_inquiry_ids %}Answered{% else %}Answer{% endif %}
+              </button>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  <div id="answer-modal" class="modal">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3>Answer Inquiry</h3>
+          <form id="answer-form" action="{{ url_for('answer_inquiry') }}" method="post">
+              <input type="hidden" name="inquiry_id" id="inquiry_id">
+              <div class="form-group">
+                  <label for="answer">Answer:</label>
+                  <textarea id="answer" name="answer" class="form-control" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $(".answer-btn").on("click", function() {
+          var inquiryId = $(this).data("inquiry-id");
+          var inquiryReply = $(this).data("inquiry-reply");
+          $("#inquiry_id").val(inquiryId);
+          $("#answer").val(inquiryReply); // Load previous answer, if any
+          $("#answer-modal").css("display", "block");
+      });
+
+      $(".close").on("click", function() {
+          $("#answer-modal").css("display", "none");
+      });
+
+      $(window).on("click", function(event) {
+          if (event.target == $("#answer-modal")[0]) {
+              $("#answer-modal").css("display", "none");
+          }
+      });
+  });
+</script>

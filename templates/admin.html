@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/admin.css">
+  <link rel="stylesheet" type="text/css" href="../static/header.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+      <h1>Admin Panel</h1>
+    </div>
+    
+    <ul>
+      <li><a href="#" data-section="users"><i class="fas fa-users"></i> Manage Users</a></li>
+      <li><a href="#" data-section="bills"><i class="fas fa-file-invoice"></i> Manage Bills</a></li>
+      <li><a href="#" data-section="payments"><i class="fas fa-money-bill-wave"></i> Manage Payments</a></li>
+      <li><a href="#" data-section="inquiries"><i class="fas fa-question-circle"></i> Manage Inquiries</a></li>
+      <li><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Go Back to User View</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div id="users" class="section">
+      {% include 'manage_users.html' %}
+    </div>
+    <div id="bills" class="section" style="display: none;">
+        {% include 'manage_bills.html' %}
+        {{clear()}}
+    </div>
+    <div id="payments" class="section" style="display: none;">
+        {% include 'manage_payments.html' %}
+    </div>
+    <div id="inquiries" class="section" style="display: none;">
+        {% include 'manage_inquires.html' %}
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+  $('.sidebar ul li a').not('.back-button').click(function(e) {
+    e.preventDefault();
+    var section = $(this).data('section');
+    $('.section').hide();
+    $('#' + section).show();
+  });
+
+  $('.back-button').click(function(e) {
+    // Prevent the default link behavior
+    e.preventDefault();
+    // Redirect to the home route
+    window.location.href = '{{ url_for("home") }}';
+  });
+});
+  </script>
+  
+</body>
+</html>

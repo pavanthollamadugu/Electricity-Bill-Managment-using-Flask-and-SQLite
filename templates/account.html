@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Account Management</title>
+  <link rel="stylesheet" type="text/css" href="../static/account.css">
+  <link rel="stylesheet" type="text/css" href="../static/header.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Function to fetch usage and expenses data from the server
+      function fetchUsageData() {
+        $.ajax({
+          url: '/account/usage',
+          method: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            $('#current-month-usage').text(data.current_month_usage + ' kWh');
+            $('#previous-month-usage').text(data.previous_month_usage + ' kWh');
+            $('#average-monthly-usage').text(data.average_monthly_usage + ' kWh');
+            $('#current-month-expenses').text('$' + data.current_month_expenses.toFixed(2));
+            $('#previous-month-expenses').text('$' + data.previous_month_expenses.toFixed(2));
+            $('#average-monthly-expenses').text('$' + data.average_monthly_expenses.toFixed(2));
+          },
+          error: function() {
+            console.log('Error fetching usage data');
+          }
+        });
+      }
+
+      // Fetch usage and expenses data on page load
+      fetchUsageData();
+    });
+  </script>
+</head>
+<body>
+    {% include 'header.html' %}
+
+  <main>
+    <div class="container">
+      <h2>Account Management</h2>
+      <div class="account-section">
+        <div class="account-card">
+          <div class="card-icon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="card-content">
+            <h3>Personal Information</h3>
+            <p>Update your account details and contact information.</p>
+            <a href="{{url_for('update_personal_info')}}" class="button">Update Profile</a>
+          </div>
+        </div>
+        <div class="account-card">
+          <div class="card-icon">
+            <i class="fas fa-file-invoice"></i>
+          </div>
+          <div class="card-content">
+            <h3>Billing Information</h3>
+            <p>Manage your billing preferences and payment methods.</p>
+            <a href="{{url_for('manage_user_billing')}}" class="button">Manage Billing</a>
+          </div>
+        </div>
+        <div class="account-card">
+          <div class="card-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="card-content">
+            <h3>Payment History</h3>
+            <p>View your past payments and download invoices.</p>
+            <a href="{{url_for('payment_history')}}" class="button">View History</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-section">
+        <h3>Electricity Usage</h3>
+        <div class="usage-chart">
+          <!-- Include your usage chart code here -->
+        </div>
+        <div class="usage-summary">
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div class="card-content">
+              <h4>Current Month Usage</h4>
+              <p id="current-month-usage"></p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="card-content">
+              <h4>Previous Month Usage</h4>
+              <p id="previous-month-usage"></p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="card-content">
+              <h4>Average Monthly Usage</h4>
+              <p id="average-monthly-usage"></p>
+            </div>
+          </div>
+        </div>
+        <a href="{{ url_for('usage') }}" class="button">View Detailed Usage</a>
+      </div>
+
+      <div class="expenses-section">
+        <h3>Electricity Expenses</h3>
+        <div class="expenses-chart">
+          <!-- Include your expenses chart code here -->
+        </div>
+        <div class="expenses-summary">
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="card-content">
+              <h4>Current Month Expenses</h4>
+              <p id="current-month-expenses"></p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="card-content">
+              <h4>Previous Month Expenses</h4>
+              <p id="previous-month-expenses"></p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="card-content">
+              <h4>Average Monthly Expenses</h4>
+              <p id="average-monthly-expenses"></p>
+            </div>
+          </div>
+        </div>
+        <a href="{{ url_for('usage') }}" class="button">View Detailed Expenses</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <!-- Include your footer code here -->
+  </footer>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<div class="container">
+    <h2>Manage Payments</h2>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Payment Date</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payments %}
+          <tr>
+            <td>{{ payment.username }}</td>
+            <td>{{ payment.payment_date }}</td>
+            <td>{{ payment.amount }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+    <div class="add-payment">
+      <button type="button" class="btn btn-primary" id="addPaymentBtn">Add Payment</button>
+    </div>
+  
+    <div id="add-payment-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add Payment</h3>
+        <form id="add-payment-form" action="{{ url_for('add_payment') }}" method="post">
+          <div class="form-group">
+            <label for="user">User:</label>
+            <select id="user" name="user_id" class="form-control" required>
+              <option value="">Select User</option>
+              {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" class="form-control" step="0.01" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#addPaymentBtn").on("click", function() {
+        $("#add-payment-modal").css("display", "block");
+      });
+  
+      $(".close").on("click", function() {
+        $("#add-payment-modal").css("display", "none");
+      });
+  
+      $(window).on("click", function(event) {
+        if (event.target == $("#add-payment-modal")[0]) {
+          $("#add-payment-modal").css("display", "none");
+        }
+      });
+    });
+  </script>
