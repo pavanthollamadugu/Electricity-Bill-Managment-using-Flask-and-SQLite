@@ -1,5 +1,5 @@
 # Electricity-Bill-Managment-using-Flask-and-SQLite
-# Electric Bill Management System (EBMS)
+
 
 The **Electric Bill Management System (EBMS)** is a web-based application developed using Flask, aimed at streamlining electricity bill management for both consumers and administrators. The system offers an efficient and user-friendly platform for managing electricity consumption, payments, and inquiries.
 
